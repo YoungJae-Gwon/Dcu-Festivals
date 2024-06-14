@@ -1,0 +1,283 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Flash Bang Festival 2024</title>
+    <link rel="stylesheet" href="public/styles.css">
+    <style>
+        .festival-image {
+            display: block;
+            margin: 20px auto;
+            max-width: 70%;
+            height: auto;
+        }
+        body {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            color: #fefefe;
+            height: 100vh;
+            margin: 0;
+            font-family: Arial, sans-serif;
+            background-color: #1e1e1e;
+        }
+        header {
+            width: 100%;
+            background-color: #1e1e1e;
+            color: white;
+            padding: 10px 0;
+        }
+        
+        
+        .header-container {
+            width: 100%;}
+
+        .image-container {
+            position: relative;
+            width: 50%;
+        }
+        .arrow {
+            position: absolute;
+            top: 50%;
+            transform: translateY(-50%);
+            width: 30px;
+            height: 30px;
+            cursor: pointer;
+            user-select: none;
+            background: no-repeat center/contain;
+        }
+        .left-arrow {
+            left: -60px;
+            background-image: url('path/left-arrow.png');
+        }
+        .right-arrow {
+            right: -60px;
+            background-image: url('path/right-arrow.png');
+        }
+        .dots-container {
+            text-align: center;
+            margin-top: 10px;
+        }
+        .dot {
+            display: inline-block;
+            width: 10px;
+            height: 10px;
+            margin: 0 5px;
+            background-color: white;
+            border-radius: 50%;
+            cursor: pointer;
+        }
+        .dot.active {
+            background-color: #A2B5CD;
+        }
+        .upload-form {
+            margin: 20px;
+            padding: 20px;
+            background-color: #333;
+            border-radius: 10px;
+            width: 50%;
+        }
+        .upload-form input,
+        .upload-form button {
+            margin: 10px 0;
+            padding: 10px;
+            width: 100%;
+        }
+        .posts {
+            width: 70%;
+            margin: 20px 0;
+        }
+        .post {
+            background-color: #444;
+            margin: 10px 0;
+            padding: 10px;
+            border-radius: 10px;
+        }
+        .post-details {
+    background-color: #333;
+    padding: 20px;
+    border-radius: 10px;
+    width: 90%; 
+    max-width: 800px; 
+    margin: 20px auto; 
+}
+
+        .post-image {
+    max-width: 100%;
+    max-height: 200px; 
+    object-fit: cover; 
+    border-radius: 10px; 
+}
+.post-details img {
+    margin-bottom: 10px; /* 이미지 아래에 간격 추가 */
+}
+
+.post-details p {
+    margin-bottom: 15px; /* 문단 사이에 간격 추가 */
+}
+
+    </style>
+</head>
+<body>
+    <header>
+        <div class="header-container">
+            <h1>DCU Festivals</h1>
+            <nav class="main-nav">
+                <a href="/">Home</a>
+                <a href="#" id="events-link">2024</a>
+            </nav>
+            <nav class="auth-nav">
+                <span id="username" style="display: none;"></span>
+                <a href="/login" id="login-button">Login</a>
+                <a href="/join" id="join-button">Join</a>
+                <a href="#" id="logout-button" style="display: none;">Logout</a>
+            </nav>
+        </div>
+    </header>
+    <main>
+        <h2>2024 대구가톨릭대학교 대동제 ’FLASH BANG'</h2>
+        <p>대구가톨릭대학교 제 37대 총학생회 ⚡FLASH⚡가 진행.</p>
+        <p>5월 28일부터 30일까지 진행되는 2024 대구가톨릭대학교 대동제 ’FLASH BANG‘</p>
+        <div class="image-container">
+            <span class="arrow left-arrow" id="left-arrow"></span>
+            <img src="path/flashbang.png" alt="Festival Image" id="festival-image" class="festival-image">
+            <span class="arrow right-arrow" id="right-arrow"></span>
+        </div>
+        <div class="dots-container" id="dots-container"></div>
+        
+        <!-- 업로드 폼 -->
+        <div class="upload-form">
+            <h3>Upload Post</h3>
+            <input type="file" id="file-upload" accept="image/*,video/*">
+            <input type="text" id="post-content" placeholder="Enter content">
+            <button id="upload-button">Upload</button>
+        </div>
+
+        <!-- 게시물 목록 -->
+        <div class="posts" id="posts"></div>
+    </main>
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            const username = localStorage.getItem('username');
+            const isAuthenticated = localStorage.getItem('isAuthenticated') === 'true';
+            if (isAuthenticated) {
+                document.getElementById('username').textContent = username;
+                document.getElementById('username').style.display = 'inline';
+                document.getElementById('login-button').style.display = 'none';
+                document.getElementById('join-button').style.display = 'none';
+                document.getElementById('logout-button').style.display = 'inline';
+            } else {
+                document.getElementById('username').style.display = 'none';
+                document.getElementById('login-button').style.display = 'inline';
+                document.getElementById('join-button').style.display = 'inline';
+                document.getElementById('logout-button').style.display = 'none';
+            }
+
+            document.getElementById('logout-button').addEventListener('click', () => {
+                localStorage.setItem('isAuthenticated', 'false');
+                localStorage.removeItem('username');
+                location.reload();
+            });
+
+            const images = ['path/flashbang.png', 'path/lineUp_1.png', 'path/lineUp_2.png', 'path/lineUp_3.png'];
+            let currentImageIndex = 0;
+
+            function moveImage(direction) {
+                currentImageIndex = (currentImageIndex + direction + images.length) % images.length;
+                document.getElementById('festival-image').src = images[currentImageIndex];
+                updateArrows();
+                updateDots();
+            }
+
+            function updateArrows() {
+                document.getElementById('left-arrow').style.display = currentImageIndex === 0 ? 'none' : 'block';
+                document.getElementById('right-arrow').style.display = currentImageIndex === images.length - 1 ? 'none' : 'block';
+            }
+
+            function updateDots() {
+                const dotsContainer = document.getElementById('dots-container');
+                dotsContainer.innerHTML = '';
+                for (let i = 0; i < images.length; i++) {
+                    const dot = document.createElement('span');
+                    dot.classList.add('dot');
+                    if (i === currentImageIndex) {
+                        dot.classList.add('active');
+                    }
+                    dot.addEventListener('click', () => {
+                        currentImageIndex = i;
+                        document.getElementById('festival-image').src = images[currentImageIndex];
+                        updateArrows();
+                        updateDots();
+                    });
+                    dotsContainer.appendChild(dot);
+                }
+            }
+
+            document.getElementById('left-arrow').addEventListener('click', () => moveImage(-1));
+            document.getElementById('right-arrow').addEventListener('click', () => moveImage(1));
+
+            updateArrows();
+            updateDots();
+            
+            // 업로드 기능
+            const uploadButton = document.getElementById('upload-button');
+            const fileUpload = document.getElementById('file-upload');
+            const postContent = document.getElementById('post-content');
+            const postsContainer = document.getElementById('posts');
+
+            uploadButton.addEventListener('click', () => {
+                const file = fileUpload.files[0];
+                const content = postContent.value;
+
+                if (file && content) {
+                    const reader = new FileReader();
+                    reader.onload = () => {
+                        const url = reader.result;
+                        const post = document.createElement('div');
+                        post.classList.add('post');
+                        post.innerHTML = `
+                            <img src="${url}" alt="Post Image" class="post-image">
+                            <p>${content}</p>
+                        `;
+                        post.addEventListener('click', () => {
+                            // 상세보기 구현
+                            document.getElementById('posts').innerHTML = `
+                                <div class="post-details">
+                                    <img src="${url}" alt="Post Image" class="post-image">
+                                    <p>${content}</p>
+                                    <button class="like-button">Like</button>
+                                    <div class="comments-section">
+                                        <input type="text" placeholder="Add a comment" class="comment-input">
+                                        <button class="comment-button">Comment</button>
+                                        <div class="comments-list"></div>
+                                    </div>
+                                </div>
+                            `;
+                            document.querySelector('.like-button').addEventListener('click', () => {
+                                alert('Liked!');
+                            });
+                            document.querySelector('.comment-button').addEventListener('click', () => {
+                                const commentInput = document.querySelector('.comment-input');
+                                const comment = commentInput.value;
+                                if (comment) {
+                                    const commentList = document.querySelector('.comments-list');
+                                    const newComment = document.createElement('p');
+                                    newComment.textContent = comment;
+                                    commentList.appendChild(newComment);
+                                    commentInput.value = '';
+                                }
+                            });
+                        });
+                        postsContainer.appendChild(post);
+                    };
+                    reader.readAsDataURL(file);
+                } else {
+                    alert('Please select a file and enter content.');
+                }
+            });
+        });
+    </script>
+</body>
+</html>

@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Daegu Catholic University Events</title>
+    <link rel="stylesheet" href="public/styles.css">
+</head>
+<body>
+    <header>
+        <div class="header-container">
+            <h1>DCU Festivals</h1>
+            <nav class="main-nav">
+                <a href="/">Home</a>
+                <a href="#" id="events-link">2024</a>
+            </nav>
+            <nav class="auth-nav">
+                <span id="username" style="display: none;"></span>
+                <a href="/login" id="login-button">Login</a>
+                <a href="/join" id="join-button">Join</a>
+                <a href="#" id="logout-button" style="display: none;">Logout</a>
+            </nav>
+        </div>
+    </header>
+    <main>
+        <div class="image-container">
+            <img src="path/flashbang.png" alt="Festival Image" id="festival-image" class="animated-image">
+        </div>
+    </main>
+    <footer>
+        <p>&copy; 2024 Daegu Catholic University</p>
+    </footer>
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            const username = localStorage.getItem('username');
+            const isAuthenticated = localStorage.getItem('isAuthenticated') === 'true';
+            if (isAuthenticated) {
+                document.getElementById('username').textContent = username;
+                document.getElementById('username').style.display = 'inline';
+                document.getElementById('login-button').style.display = 'none';
+                document.getElementById('join-button').style.display = 'none';
+                document.getElementById('logout-button').style.display = 'inline';
+            } else {
+                document.getElementById('username').style.display = 'none';
+                document.getElementById('login-button').style.display = 'inline';
+                document.getElementById('join-button').style.display = 'inline';
+                document.getElementById('logout-button').style.display = 'none';
+            }
+
+            document.getElementById('logout-button').addEventListener('click', () => {
+                localStorage.setItem('isAuthenticated', 'false');
+                localStorage.removeItem('username');
+                window.location.href = '/logout';
+            });
+
+            // 이벤트 링크 클릭 시 로그인 여부 체크
+            document.getElementById('events-link').addEventListener('click', (event) => {
+                if (!isAuthenticated) {
+                    event.preventDefault();
+                    alert('로그인 후 이용 가능합니다. 로그인 후에 다시 시도해 주세요.');
+                    window.location.href = '/login';
+                } else {
+                    window.location.href = '/festival_2024';
+                }
+            });
+
+            // 사진 클릭 시 로그인 여부 체크
+            document.getElementById('festival-image').addEventListener('click', (event) => {
+                if (!isAuthenticated) {
+                    event.preventDefault();
+                    alert('로그인 후 이용 가능합니다. 로그인 후에 다시 시도해 주세요.');
+                    window.location.href = '/login';
+                } else {
+                    window.location.href = '/festival_2024';
+                }
+            });
+        });
+    </script>
+</body>
+</html>

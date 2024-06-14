@@ -1,0 +1,160 @@
+/* 전체 페이지 스타일 */
+body {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    height: 100vh;
+    margin: 0;
+    font-family: Arial, sans-serif;
+    background-color: #f4f4f4;
+}
+
+/* 헤더 스타일 */
+header {
+    width: 100%;
+    background-color: #A2B5CD;
+    color: white;
+    padding: 10px 0;
+}
+
+/* 헤더 컨테이너 스타일 */
+.header-container {
+    width: calc(100% - 40px); /* 양쪽에 20px 여유 공간 */
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 0 20px;
+    box-sizing: border-box;
+}
+
+/* 헤더 타이틀 스타일 */
+header h1 {
+    margin: 0;
+}
+
+/* 메인 내비게이션 스타일 */
+.main-nav {
+    display: flex;
+    gap: 20px;
+    position: absolute;
+    left: 50%;
+    transform: translateX(-50%);
+}
+
+/* 인증 내비게이션 스타일 */
+.auth-nav {
+    display: flex;
+    gap: 10px;
+}
+
+/* 내비게이션 링크 스타일 */
+nav a {
+    color: white; /* 링크 색상을 흰색으로 설정 */
+    text-decoration: none;
+    font-size: 16px;
+}
+
+/* 링크가 방문된 후에도 색상을 흰색으로 유지 */
+nav a:visited {
+    color: white;
+}
+
+/* 링크에 마우스를 올렸을 때 색상을 흰색으로 유지 */
+nav a:hover {
+    color: white;
+}
+
+/* 링크가 활성화된 상태에서도 색상을 흰색으로 유지 */
+nav a:active {
+    color: white;
+}
+
+/* 메인 컨텐츠 스타일 */
+main {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    padding: 20px;
+}
+
+/* 섹션 타이틀 스타일 */
+h2 {
+    text-align: center;
+}
+
+/* 리스트 스타일 초기화 */
+ul {
+    list-style: none;
+    padding: 0;
+}
+
+/* 리스트 아이템 스타일 */
+li {
+    background-color: white;
+    padding: 10px;
+    margin: 5px 0;
+    border-radius: 5px;
+    width: 80%;
+    max-width: 600px;
+    text-align: center;
+    cursor: pointer;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+/* 푸터 스타일 */
+footer {
+    width: 100%;
+    background-color: #333;
+    color: white;
+    text-align: center;
+    padding: 10px 0;
+}
+
+/* 인증 버튼 스타일 */
+.auth-buttons {
+    display: flex;
+    gap: 10px;
+}
+
+/* 인증 버튼 링크 스타일 */
+.auth-buttons a {
+    color: white;
+    text-decoration: none;
+    font-size: 16px;
+    padding: 5px 10px;
+    border: 1px solid white;
+    border-radius: 5px;
+}
+
+/* 인증 버튼 호버 스타일 */
+.auth-buttons a:hover {
+    background-color: white;
+    color: #A2B5CD;
+}
+
+/* 이미지 애니메이션 효과 */
+.animated-image {
+    width: 50%;
+    animation: flicker 2.0s infinite;
+}
+
+/* 이미지 깜박임 효과 */
+@keyframes flicker {
+    0%, 100% {
+        opacity: 1;
+    }
+    50% {
+        opacity: 0.5;
+    }
+}
+
+/* 이미지 컨테이너 스타일 */
+.image-container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin: 20px 0;
+}
